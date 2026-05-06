@@ -21,6 +21,23 @@ namespace Automaton.src.Core
             }
         }
 
+        static public void PrintBanner()
+        {
+            string banner = @"
+                _                        _              
+     /\        | |                      | |             
+    /  \  _   _| |_ ___  _ __ ___   __ _| |_ ___  _ __  
+   / /\ \| | | | __/ _ \| '_ ` _ \ / _` | __/ _ \| '_ \ 
+  / ____ \ |_| | || (_) | | | | | | (_| | || (_) | | | |
+ /_/    \_\__,_|\__\___/|_| |_| |_|\__,_|\__\___/|_| |_|
+                                                        
+            ";
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine(banner);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Type 'help' for commands!\n");
+        }
+
 
     }
 }

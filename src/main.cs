@@ -16,9 +16,11 @@ using System.Runtime.CompilerServices;
 
 namespace Automaton // Runs .bat and .ps1 files for automation,
 {
+    
     public static class Automaton
     {
         static List<Chore> Chores = new List<Chore>();
+        static string PowshPath = "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe";
         static Action<string,bool> print = (x,y) => { // Simple Anonymous Function for printing
             
 
@@ -55,6 +57,14 @@ namespace Automaton // Runs .bat and .ps1 files for automation,
 
             ntime = new DateTime(x[0], x[1], x[2], x[3], x[4], x[5]);
             return ntime;
+        }
+
+        static void Help()
+        {
+            print("\nAutomaton Commands:",false);
+            print("add <scriptpath>",false);
+            print("run", false);
+            print("exit\n", false);
         }
 
         private static void CheckChore()
@@ -96,15 +106,9 @@ namespace Automaton // Runs .bat and .ps1 files for automation,
                 //print($"S: {secs}",false); // logging how much time has passed
             };
 
-            bool ran = false,ran2 = false; // to stop over printing because of tick speed
+            bool ran = false;
 
-
-            
-
-            string final;
-
-            
-
+            PrintBanner();
             while (true) { // when ijt starts we put a loop so it does not exit prematurely until the desired seconds is done.
                string input = Prompt<string>($"\e[41mAutomaton>\e[0m");
                 string[] inputs = Tokenize(input,' ');
@@ -112,18 +116,29 @@ namespace Automaton // Runs .bat and .ps1 files for automation,
                 
 
 
-                if (cmd == "add") // add a new task to be executed: add <filename> <path> <args> <time-to-be-executed>
+                if (cmd == "add") // add a new task to be executed: add <script-path> <args> <time-to-be-executed>
                 {
-                    string args = string.Join(' ',inputs.Skip(3));
-                    Chores.Add(new Chore(inputs[2],SetConfigs(),args)); // process name, path and arguments
+                    string args = string.Join(' ',inputs.Skip(1));
+                    Chores.Add(new Chore(PowshPath,SetConfigs(),args)); // process name, path and arguments
                 } else if (cmd == "run")
                 {
-                    time.Start();
-                    Debug("Automaton started!");
+                    if (!ran)
+                    {
+                        time.Start();
+                        Debug("Automaton started!");
+                    }
+                    else
+                    {
+                        Debug("Automaton Already Ran!");
+                    }
+
                 } else if(cmd == "exit")
                 {
                     print("Goodbye!",false);
                     Environment.Exit(0);
+                } else if(cmd == "help")
+                {
+                    Help();
                 }
                 else
                 {
