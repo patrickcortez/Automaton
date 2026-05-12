@@ -7,6 +7,11 @@ namespace Automaton.src.Core
 {
     static internal class Shell
     {
+
+        static public async Task<ConsoleKeyInfo> ReadKey()
+        {
+            return await Task.Run(() => Console.ReadKey(true));
+        }
         
         static public T Prompt<T>(string text = "")
         {

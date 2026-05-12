@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Xml;
 
@@ -23,9 +24,58 @@ namespace Automaton.src.Utils
             }
         }
 
+#nullable enable
+        public static void WhichCTRL(ConsoleKeyInfo key)
+        {
+            if (char.IsControl(key.KeyChar))
+            {
+                switch(key.Key){
+                    case ConsoleKey.D:
+                        Console.WriteLine("CTRL D");
+                        break;
+
+                    default:
+                        Console.WriteLine($"{key.KeyChar} is not a control");
+                        break;
+                }
+            }
+        }
+
         private static bool isEmpty(string data)
         {
             return data != string.Empty;
+        }
+
+        public static bool checkPowerShell(string path)
+        {
+            Process proc = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = path,
+                    Arguments = "--version",
+                    UseShellExecute = true,
+                    
+                }
+            };
+
+           return proc.Start();
+
+        }
+
+        public static bool checkShell(string name)
+        {
+            Process proc = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = name,
+                    Arguments = "--version",
+                    UseShellExecute = true
+                }
+            };
+
+            return proc.Start();
         }
 
         public static string[] Tokenize(string data,char seperator)

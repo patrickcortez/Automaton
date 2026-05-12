@@ -17,18 +17,26 @@ namespace Automaton.src.Core
             args = xargs;
             proc = new Process
             {
-                StartInfo = new ProcessStartInfo(Filepath,args)
+                StartInfo = new ProcessStartInfo
+                {
+                    UseShellExecute = true,
+                    FileName = xFilePath,
+                    Arguments = xargs
+                }
             };
         }
 
-        public void procRun()
+        public int procRun()
         {
             if (proc.Start())
             {
                 proc.WaitForExit();
                 proc.Dispose();
+
+                return 0;
             }
-               
+
+            return 1;
         }
 
         
